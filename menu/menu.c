@@ -14,6 +14,7 @@
 //******************************* Include Files ********************************
 #include <stdio.h>
 #include <stdbool.h>
+#include <ctype.h>
 #include "customTypes.h"
 #include "menu.h"
 #include "device.h"
@@ -27,6 +28,31 @@
 //****************************** Local Functions *******************************
 
 //******************************.FUNCTION_HEADER.*******************************
+//Purpose	: Validate the choice selected from menu option 
+//Inputs	: uint8 ucChoice, the choice which is to be validated
+//				uint8 ucLimit, the maximum limit for the choice
+//Outputs	: None
+//Return	: True, if the choice is valid
+//Return	: False, if the choice is invalid
+//Notes		: None
+//******************************************************************************
+static bool menuValidateChoice(uint8 ucChoice, uint8 ucMaximumLimit)
+{
+	bool blReturn = false;
+
+	if((ucChoice < 0) || (ucChoice > ucMaximumLimit))
+	{
+		printf("\nInavlid input: Input validation failed\n");
+	}
+	else
+	{
+		blReturn = true;
+	}
+
+	return blReturn;
+}
+
+//******************************.FUNCTION_HEADER.*******************************
 //Purpose	: Display the contents in secondary menu 
 //Inputs	: None
 //Outputs	: None
@@ -36,14 +62,29 @@
 static uint8 menuDisplaySeconadryOptions(void)
 {
 	uint8 ucChoice = 0;
+	bool blResult = false;
+	do
+	{
+		printf("1. Name\n");
+		printf("2. Type\n");
+		printf("3. Id\n");
+		printf("4. Vendor\n");
+		printf("0. Back to main menu\n");
+		printf("Enter choice: ");
+		blResult = scanf("%hhu", &ucChoice);
+		menuFlushInput();
 
-	printf("1. Name\n");
-	printf("2. Type\n");
-	printf("3. Id\n");
-	printf("4. Vendor\n");
-	printf("0. Back to main menu\n");
-	printf("Enter choice: ");
-	scanf("%hhd", &ucChoice);
+		if(blResult == SUCCESS)
+		{
+			blResult = menuValidateChoice(ucChoice, MENU_MAIN_OPTIONS_MAX);
+		}
+		else
+		{
+			printf("\nInavlid input: Input read failed");
+		}
+
+	}
+	while (blResult != SUCCESS);
 
 	return ucChoice;
 }
@@ -58,18 +99,55 @@ static uint8 menuDisplaySeconadryOptions(void)
 static uint8 menuDisplayMainOptions(void)
 {
 	uint8 ucChoice = 0;
+	bool blResult = false;
 
-	printf("\nMenu\n");
-	printf("-----------------------------\n");
-	printf("1. Add device\n");
-	printf("2. List devices\n");
-	printf("3. Search device\n");
-	printf("4. Remove device\n");
-	printf("0. Exit\n");
-	printf("Enter choice: ");
-	scanf("%hhu", &ucChoice);
+	do
+	{
+		printf("\nMenu\n");
+		printf("-----------------------------\n");
+		printf("1. Add device\n");
+		printf("2. List devices\n");
+		printf("3. Search device\n");
+		printf("4. Remove device\n");
+		printf("0. Exit\n");
+		printf("Enter choice: ");
+		blResult = scanf("%hhu", &ucChoice);
+		menuFlushInput();
+
+		if(blResult == SUCCESS)
+		{
+			blResult = menuValidateChoice(ucChoice, MENU_SECONDARY_OPTIONS_MAX);
+		}
+		else
+		{
+			printf("\nInavlid input: Input read failed\n");
+		}
+	}
+	while (blResult != SUCCESS);
 
 	return ucChoice;
+}
+
+//******************************.FUNCTION_HEADER.*******************************
+//Purpose	: To clear the buffer after each read from user input
+//Inputs	: None
+//Outputs	: None
+//Return	: True, in case of successful execution
+//Return	: False, in case of any error
+//Notes		: None
+//******************************************************************************
+bool menuFlushInput(void)
+{
+	bool blReturn = false;
+	uint8 ucInput;
+
+	while ((ucInput = getchar()) != '\n' && ucInput != EOF)
+	{
+		//NOP
+	}
+	blReturn = true;
+
+	return blReturn;
 }
 
 //******************************.FUNCTION_HEADER.*******************************

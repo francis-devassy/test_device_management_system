@@ -3,42 +3,24 @@
 //  All Rights Reserved
 //******************************************************************************
 //
-// Summary	: Handle options to update device data history
-// Note		: Feature to add, list, search and remove devices to the data 
-//			  history
+// Summary	: Defines the common constants used in the program
+// Note		: Constants shared among multiples files to be placed here
 //
 //******************************************************************************
 
-#ifndef DEVICE_H
-#define DEVICE_H
+#ifndef _CONSTANTS_H_
+#define _CONSTANTS_H_
 
 //******************************* Include Files ********************************
-#include <stdbool.h>
-#include "customTypes.h"
-#include "constants.h"
 
 //******************************* Global Types *********************************
-typedef struct _DEVICE_DETAILS_
-{
-	uint8 pucDeviceName[STR_MAX_SIZE];
-	uint8 pucDeviceType[STR_MAX_SIZE];
-	uint32 ulDeviceId;
-	uint32 ulDeviceVendor;
-	uint32 ulDeviceSerial;
-} DEVICE_DETAILS;
 
 //***************************** Global Constants *******************************
-#define FILE_NAME		("devices.dat")
-#define SUCCESS			(1)
+#define STR_MAX_SIZE	(32)
 
 //***************************** Global Variables *******************************
 
 //**************************** Forward Declarations ****************************
-bool deviceAdd(const uint8 *pucFileName);
-bool deviceList(const uint8 *pucFileName);
-bool deviceSearch(const uint8 *pucFileName, uint32 ucChoice);
-bool deviceRemove(const uint8 *pucFileName, uint32 ucId);
 
-
-#endif // DEVICE_H
+#endif // _CONSTANTS_H_
 // EOF
