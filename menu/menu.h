@@ -19,8 +19,8 @@
 
 //***************************** Global Constants *******************************
 #define MENU_MAIN_OPTIONS_MAX			(4)
-#define MENU_SECONDARY_OPTIONS_MAX		(4)
-#define SEARCH_CRITERIA_MAXIMUM_OPTIONS (4)
+#define MENU_SECONDARY_OPTIONS_MAX		(5)
+#define SEARCH_CRITERIA_MAXIMUM_OPTIONS (5)
 #define REMOVE_CRITERIA_MAXIMUM_OPTIONS (4)
 
 //***************************** Global Variables *******************************
@@ -37,7 +37,8 @@ typedef enum{
 	SEARCH_BY_NAME,
 	SEARCH_BY_TYPE,
 	SEARCH_BY_ID,
-	SEARCH_BY_VENDOR
+	SEARCH_BY_VENDOR,
+	SEARCH_BY_SERIAL
 }SEARCH_OPTIONS;
 
 typedef enum{

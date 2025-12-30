@@ -292,7 +292,7 @@ static bool deviceCheckStringMatch(FILE *pstFile,
 			(strcmp((char*)DeviceData.pucDeviceType,
 			pucStringToSearch) == STRINGS_EQUAL)))
 		{
-			printf("Name\tType\tId\tVendor\tSerial\n");
+			printf("Name\t\tType\t\tId\t\tVendor\t\tSerial\n");
 			devicePrintData(&DeviceData);			
 			blReturn = SUCCESS;
 		}
@@ -326,12 +326,14 @@ static bool deviceCheckValueMatch(FILE *pstFile,
 				  READ_COUNT, pstFile) == SUCCESS)
 	{
 		if(((ucChoice == SEARCH_BY_ID) &&
-			(DeviceData.ulDeviceId == ulValueToSearch) ) ||
+			(DeviceData.ulDeviceId == ulValueToSearch)) ||
 			((ucChoice == SEARCH_BY_VENDOR) &&
-			(DeviceData.ulDeviceVendor == ulValueToSearch) ))
+			(DeviceData.ulDeviceVendor == ulValueToSearch)) ||
+			((ucChoice == SEARCH_BY_SERIAL) &&
+			(DeviceData.ulDeviceSerial == ulValueToSearch)))
 		{
 			
-			printf("Name\tType\tId\tVendor\tSerial\n");
+			printf("Name\t\tType\t\tId\t\tVendor\t\tSerial\n");
 			devicePrintData(&DeviceData);
 			blReturn = SUCCESS;
 		}
@@ -377,7 +379,7 @@ static bool deviceCheckMatch(FILE *pstFile,
 			((ucChoice == SEARCH_BY_ID) && (DeviceData.ulDeviceId == ulValueToSearch) ) ||
 			((ucChoice == SEARCH_BY_VENDOR) && (DeviceData.ulDeviceId == ulValueToSearch) ))
 		{
-			printf("Name\tType\tId\tVendor\tSerial\n");
+			printf("Name\t\tType\t\tId\t\tVendor\t\tSerial\n");
 			devicePrintData(&DeviceData);
 			printf("\n Match found");
 		}
@@ -407,7 +409,7 @@ static bool deviceSearchByCriteria(FILE *pstFile,
 	if(pstFile != NULL && 
 		(ucChoice >= 0 && ucChoice <= SEARCH_CRITERIA_MAXIMUM_OPTIONS))
 	{
-		getchar();
+		//getchar();
 
 		if(ucChoice == SEARCH_BY_NAME || ucChoice == SEARCH_BY_TYPE)
 		{
@@ -427,12 +429,19 @@ static bool deviceSearchByCriteria(FILE *pstFile,
 				deviceCheckStringMatch(pstFile, ucChoice, ucStringToSearch);
 			}
 		}
-		else if(ucChoice == SEARCH_BY_ID || ucChoice == SEARCH_BY_VENDOR)
+		else if(ucChoice == SEARCH_BY_ID || ucChoice == SEARCH_BY_VENDOR ||
+				ucChoice == SEARCH_BY_SERIAL)
 		{
 			if(ucChoice == SEARCH_BY_ID)
 			{
 				blReturn = deviceReadValue("Enter Id: ",
 										&ulValueToSearch, READ_HEX);
+
+			}
+			else if(ucChoice == SEARCH_BY_SERIAL)
+			{
+				blReturn = deviceReadValue("Enter Serial: ",
+										&ulValueToSearch, READ_NON_HEX);
 
 			}
 			else
@@ -484,7 +493,7 @@ static bool deviceRemoveByCriteria(FILE *pstFile,
 	if(pstFile != NULL && 
 		(ucChoice >= 0 && ucChoice <= SEARCH_CRITERIA_MAXIMUM_OPTIONS))
 	{
-		getchar();
+		//getchar();
 
 		if(ucChoice == SEARCH_BY_NAME)
 		{

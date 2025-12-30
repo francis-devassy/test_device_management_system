@@ -69,6 +69,7 @@ static uint8 menuDisplaySeconadryOptions(void)
 		printf("2. Type\n");
 		printf("3. Id\n");
 		printf("4. Vendor\n");
+		printf("5. Serial\n");
 		printf("0. Back to main menu\n");
 		printf("Enter choice: ");
 		blResult = scanf("%hhu", &ucChoice);
@@ -76,7 +77,7 @@ static uint8 menuDisplaySeconadryOptions(void)
 
 		if(blResult == SUCCESS)
 		{
-			blResult = menuValidateChoice(ucChoice, MENU_MAIN_OPTIONS_MAX);
+			blResult = menuValidateChoice(ucChoice,MENU_SECONDARY_OPTIONS_MAX);
 		}
 		else
 		{
@@ -116,7 +117,7 @@ static uint8 menuDisplayMainOptions(void)
 
 		if(blResult == SUCCESS)
 		{
-			blResult = menuValidateChoice(ucChoice, MENU_SECONDARY_OPTIONS_MAX);
+			blResult = menuValidateChoice(ucChoice, MENU_MAIN_OPTIONS_MAX);
 		}
 		else
 		{
